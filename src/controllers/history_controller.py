@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint
 from models.history_model import HistoryModel
 
 history_controller = Blueprint('history', __name__)
