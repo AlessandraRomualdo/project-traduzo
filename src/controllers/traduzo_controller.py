@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request
 from models.language_model import LanguageModel
 from deep_translator import GoogleTranslator
+from models.history_model import HistoryModel
 
 
 traduzo_controller = Blueprint("traduzo_controller", __name__)
@@ -16,6 +17,14 @@ def index():
         translated = GoogleTranslator(
             source=translate_from, target=translate_to
             ).translate(text_to_translate)
+
+        history_data = {
+            "text-to-translate": text_to_translate,
+            "translate-from": translate_from,
+            "translate-to": translate_to,
+            "translated-text": translated
+        }
+        HistoryModel(history_data).save()
 
         return render_template(
             "index.html",
@@ -46,6 +55,13 @@ def reverse_translate():
         source=translate_from, target=translate_to
         ).translate(text_to_translate)
 
+    history_data = {
+        "text-to-translate": translated,
+        "translate-from": translate_to,
+        "translate-to": translate_from,
+        "translated-text": text_to_translate
+    }
+    HistoryModel(history_data).save()
     return render_template(
         "index.html",
         languages=LanguageModel.list_dicts(),

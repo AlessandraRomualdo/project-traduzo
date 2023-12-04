@@ -1,6 +1,7 @@
 from flask import Flask
 from controllers.admin_controller import admin_controller
 from controllers.traduzo_controller import traduzo_controller
+from controllers.history_controller import history_controller
 
 
 from os import environ
@@ -12,6 +13,7 @@ app.template_folder = "views/templates"
 app.static_folder = "views/static"
 
 app.register_blueprint(traduzo_controller, url_prefix="/")
+app.register_blueprint(history_controller, url_prefix="/")
 app.register_blueprint(admin_controller, url_prefix="/admin")
 
 
